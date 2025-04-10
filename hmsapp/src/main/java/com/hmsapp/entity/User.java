@@ -10,6 +10,8 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
+
+
     @Column(name = "username", nullable = false)
     private String username;
 
@@ -21,6 +23,17 @@ public class User {
 
     @Column(name = "mobile", nullable = false, unique = true, length = 10)
     private String mobile;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getMobile() {
         return mobile;

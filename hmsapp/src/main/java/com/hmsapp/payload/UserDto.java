@@ -8,6 +8,10 @@ import jakarta.validation.constraints.Size;
 public class UserDto {
     private Long id;
 
+    @NotNull(message = "name is Mandatory")
+    @Size(min = 2, max = 15, message = "Username should be 5 to 15 characters")
+    private String name;
+
     @NotNull(message = "Username is Mandatory")
     @Size(min = 2, max = 15, message = "Username should be 5 to 15 characters")
     private String username;
@@ -26,6 +30,14 @@ public class UserDto {
 
     public Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setId(Long id) {this.id = id;}

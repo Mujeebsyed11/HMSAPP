@@ -33,11 +33,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginDto loginDto){
-        boolean status = authService.verifyLogin(loginDto);
-        if(status){
-            return "Logged in";
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
+        String token = authService.verifyLogin(loginDto);
+        if(token!=null){
+            return new ResponseEntity<>(token, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("invalid username/password",HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return "invalid username/password";
+
     }
 }

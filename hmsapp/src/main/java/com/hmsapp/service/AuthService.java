@@ -14,10 +14,12 @@ import java.util.Optional;
 public class AuthService {
     private UserRepository userRepository;
     private ModelMapper modelMapper;
+    private JWTService jwtService;
 
-    public AuthService(UserRepository userRepository, ModelMapper modelMapper) {
+    public AuthService(UserRepository userRepository, ModelMapper modelMapper, JWTService jwtService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.jwtService = jwtService;
     }
 
     public UserDto convertToDto(User user){
@@ -43,17 +45,16 @@ public class AuthService {
         return convertToDto(savedUser);
     }
 
-    public boolean verifyLogin(LoginDto loginDto){
+    public String verifyLogin(LoginDto loginDto){
         Optional<User> opUser = userRepository.findByUsername(loginDto.getUsername());
         if(opUser.isPresent()){
             User user = opUser.get();
-            if(BCrypt.checkpw(loginDto.getPassword(),user.getPassword())){
-                return true;
+            if(BCrypt.checkpw(loginDto.getPassword(), user.getPassword())){
+                return jwtService.generateToken(user.getUsername());
             }else{
-                return false;
+                return null;
             }
-        }else{
-            return false;
         }
+        return null;
     }
 }

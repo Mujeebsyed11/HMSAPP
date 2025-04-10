@@ -2,6 +2,7 @@ package com.hmsapp.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,14 @@ public class JWTService {
                 .withExpiresAt(new Date(System.currentTimeMillis()+expiry))
                 .withIssuer(issuer)
                 .sign(algorithm);
+    }
+
+    public String getUsername(String token) {
+        DecodedJWT decodedJwt =  JWT
+                .require(algorithm)
+                .withIssuer(issuer)
+                .build()
+                .verify(token);
+        return decodedJwt.getClaim("name").asString();
     }
 }

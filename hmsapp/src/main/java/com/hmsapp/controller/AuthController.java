@@ -1,6 +1,7 @@
 package com.hmsapp.controller;
 
 import com.hmsapp.entity.User;
+import com.hmsapp.payload.JwtToken;
 import com.hmsapp.payload.LoginDto;
 import com.hmsapp.payload.UserDto;
 import com.hmsapp.service.AuthService;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     private AuthService authService;
@@ -35,8 +36,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
         String token = authService.verifyLogin(loginDto);
+        JwtToken jwtToken = new JwtToken();
+        jwtToken.setToken(token);
+        jwtToken.setType("JWT");
         if(token!=null){
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            return new ResponseEntity<>(jwtToken, HttpStatus.OK);
         }else{
             return new ResponseEntity<>("invalid username/password",HttpStatus.INTERNAL_SERVER_ERROR);
         }

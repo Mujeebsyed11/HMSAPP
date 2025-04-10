@@ -1,14 +1,12 @@
 package com.hmsapp.controller;
 
 import com.hmsapp.entity.User;
+import com.hmsapp.payload.LoginDto;
 import com.hmsapp.payload.UserDto;
 import com.hmsapp.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -32,5 +30,14 @@ public class AuthController {
         }
         UserDto savedUser = authService.createUser(userDto);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody LoginDto loginDto){
+        boolean status = authService.verifyLogin(loginDto);
+        if(status){
+            return "Logged in";
+        }
+        return "invalid username/password";
     }
 }

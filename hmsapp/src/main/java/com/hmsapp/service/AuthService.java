@@ -1,11 +1,14 @@
 package com.hmsapp.service;
 
 import com.hmsapp.entity.User;
+import com.hmsapp.payload.LoginDto;
 import com.hmsapp.payload.UserDto;
 import com.hmsapp.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -38,5 +41,19 @@ public class AuthService {
         userDto.setPassword(encryptedPassword);
         User savedUser = userRepository.save(convertToEntity(userDto));
         return convertToDto(savedUser);
+    }
+
+    public boolean verifyLogin(LoginDto loginDto){
+        Optional<User> opUser = userRepository.findByUsername(loginDto.getUsername());
+        if(opUser.isPresent()){
+            User user = opUser.get();
+            if(BCrypt.checkpw(loginDto.getPassword(),user.getPassword())){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 }

@@ -41,8 +41,23 @@ public class AuthService {
     public UserDto createUser(UserDto userDto) {
         String encryptedPassword = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt(12));
         userDto.setPassword(encryptedPassword);
+        userDto.setRole("ROLE_USER");
         User savedUser = userRepository.save(convertToEntity(userDto));
         return convertToDto(savedUser);
+    }
+    public UserDto createOwner(UserDto userDto) {
+        String encryptedPassword = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt(12));
+        userDto.setPassword(encryptedPassword);
+        userDto.setRole("ROLE_OWNER");
+        User user = userRepository.save(convertToEntity(userDto));
+        return convertToDto(user);
+    }
+    public UserDto createBlogManager(UserDto userDto) {
+        String encryptedPassword = BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt(12));
+        userDto.setPassword(encryptedPassword);
+        userDto.setRole("ROLE_BLOGMANAGER");
+        User user = userRepository.save(convertToEntity(userDto));
+        return convertToDto(user);
     }
 
     public String verifyLogin(LoginDto loginDto){
@@ -57,4 +72,6 @@ public class AuthService {
         }
         return null;
     }
+
+
 }

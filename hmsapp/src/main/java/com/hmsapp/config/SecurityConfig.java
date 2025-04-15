@@ -17,9 +17,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf().disable().cors().disable();
-//        http.addFilterBefore(jwtFilter, AuthorizationFilter.class);// this line filters only the url's which comes with the token
+        http.addFilterBefore(jwtFilter, AuthorizationFilter.class);// this line filters only the url's which comes with the token
 
-        http.authorizeHttpRequests().anyRequest().permitAll();
+//        http.authorizeHttpRequests().anyRequest().permitAll();
+
+        http.authorizeHttpRequests()
+                .requestMatchers("/api/v1/auth/user/sign-up", "/api/v1/auth/owner/sign-up", "/api/v1/auth/login")
+                .permitAll()
+                .requestMatchers("/api/v1/property", "/api/v1/property/addProperty", "/api/v1/property/deleteProperty", "/api/v1/property/updateProperty")
+                .hasAnyRole("OWNER", "ADMIN")
+                .requestMatchers("/api/v1/auth/blog/sign-up")
+                .hasAnyRole("ADMIN")
+                .anyRequest().authenticated();
         return http.build();
     }
 

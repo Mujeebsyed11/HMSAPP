@@ -28,6 +28,16 @@ public class UserDto {
     @Size(min = 5, max = 20, message = "Password should be between 5 to 20 characters")
     private String password;
 
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Long getId() {
         return id;
     }

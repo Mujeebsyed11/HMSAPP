@@ -1,5 +1,6 @@
 package com.hmsapp.controller;
 
+import com.hmsapp.entity.Property;
 import com.hmsapp.payload.PropertyDto;
 import com.hmsapp.service.PropertyService;
 import org.springframework.http.HttpStatus;

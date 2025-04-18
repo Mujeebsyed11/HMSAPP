@@ -18,13 +18,13 @@ public class PropertyDto {
     private int noOfBathrooms;
 
     @NotNull(message = "Please specify number of Guests")
-    private int noOfGuests;
+    private int noOfGuest;
 
     @NotNull(message = "Country name is Mandatory")
-    private int country;
+    private String country;
 
     @NotNull(message = "City name is Mandatory")
-    private int city;
+    private String city;
 
     public long getId() {
         return id;
@@ -58,27 +58,27 @@ public class PropertyDto {
         this.noOfBathrooms = noOfBathrooms;
     }
 
-    public int getNoOfGuests() {
-        return noOfGuests;
+    public int getNoOfGuest() {
+        return noOfGuest;
     }
 
-    public void setNoOfGuests(int noOfGuests) {
-        this.noOfGuests = noOfGuests;
+    public void setNoOfGuest(int noOfGuest) {
+        this.noOfGuest = noOfGuest;
     }
 
-    public int getCountry() {
+    public  String getCountry() {
         return country;
     }
 
-    public void setCountry(int country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
-    public int getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(int city) {
+    public void setCity(String city) {
         this.city = city;
     }
 }

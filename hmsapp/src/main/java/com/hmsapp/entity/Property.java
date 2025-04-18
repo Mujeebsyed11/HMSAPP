@@ -86,4 +86,5 @@ public class Property {
         this.id = id;
     }
 
+
 }
